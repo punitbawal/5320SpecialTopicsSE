@@ -1,6 +1,8 @@
 package com.example.ivan.crib2castle;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,22 +27,30 @@ import java.util.ArrayList;
  * Created by Ivan on 2/17/18.
  */
 
-public class SearchActivity extends AppCompatActivity {
-
-    private DrawerLayout mDrawerLayout;
+public class SearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        String uId = getIntent().getStringExtra("UserId");
+        loadActionBar(uId.equals("-1"));
+        loadHomesFromDB();
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+
+
+
+    }
+
+
+
+
+    /*
+     * loads the listview with homes from the database
+     */
+    public void loadHomesFromDB() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("homes");
 
@@ -61,20 +72,6 @@ public class SearchActivity extends AppCompatActivity {
                 Log.w("C2C", "Failed to read value.", databaseError.toException());
             }
         });
-
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void populateListview(ArrayList<Home> homeArrayList) {

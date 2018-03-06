@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // setting widgets
         TextView tvLogin = (TextView) findViewById(R.id.tvLogin);
+        TextView tvGuest = (TextView) findViewById(R.id.tvGuest);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
 
@@ -58,6 +59,12 @@ public class LoginActivity extends AppCompatActivity {
            }
         });
 
+        tvGuest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                guestLogin();
+            }
+        });
+
     }
 
     public void authenticate(String email, String password) {
@@ -68,11 +75,33 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent("com.example.ivan.crib2castle.SearchActivity");
+                            Intent i = new Intent(LoginActivity.this, SearchActivity.class);
+                            i.putExtra("UserId", user.getUid());
                             startActivity(i);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    public void guestLogin() {
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent i = new Intent(LoginActivity.this, SearchActivity.class);
+                            i.putExtra("UserId", "-1");
+                            startActivity(i);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Error signing in as guest.",
                                     Toast.LENGTH_SHORT).show();
                         }
 

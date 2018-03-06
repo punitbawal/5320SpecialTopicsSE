@@ -1,6 +1,8 @@
 package com.example.ivan.crib2castle;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,26 +42,14 @@ public class LoginActivity extends AppCompatActivity {
                    Toast.makeText(LoginActivity.this, "Email/password field is empty.",
                            Toast.LENGTH_SHORT).show();
                } else {
-                   mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                           .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                               @Override
-                               public void onComplete(@NonNull Task<AuthResult> task) {
-                                   if (task.isSuccessful()) {
-                                       // Sign in success, update UI with the signed-in user's information
-                                       Log.d("C2C", "signInWithEmail:success");
-                                       FirebaseUser user = mAuth.getCurrentUser();
-                                       Intent i = new Intent("com.example.ivan.crib2castle.SearchActivity");
-                                       startActivity(i);
-                                   } else {
-                                       // If sign in fails, display a message to the user.
-                                       Log.w("C2C", "signInWithEmail:failure", task.getException());
-                                       Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                               Toast.LENGTH_SHORT).show();
-                                   }
+                    boolean isConnected = new Utils().checkForNetworkConnection(LoginActivity.this);
+                   if(isConnected) {
+                       authenticate(etEmail.getText().toString(), etPassword.getText().toString());
+                   } else {
+                       Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
+                               Toast.LENGTH_SHORT).show();
+                   }
 
-                                   // ...
-                               }
-                           });
                }
 
 
@@ -67,5 +57,27 @@ public class LoginActivity extends AppCompatActivity {
 
            }
         });
+
+    }
+
+    public void authenticate(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent i = new Intent("com.example.ivan.crib2castle.SearchActivity");
+                            startActivity(i);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
     }
 }

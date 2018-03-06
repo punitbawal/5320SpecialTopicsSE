@@ -55,8 +55,8 @@ public class Address {
 
     public String toString() {
         if(address2 != null)
-            return address1+", "+address2+", "+city+", "+state+" "+zip;
+            return address1+"\n"+address2+"\n"+city+", "+state+" "+zip;
         else
-            return address1+", "+city+", "+state+" "+zip;
+            return address1+"\n"+city+", "+state+" "+zip;
     }
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "427088355542",
+    "firebase_url": "https://crib2castle.firebaseio.com",
+    "project_id": "crib2castle",
+    "storage_bucket": "crib2castle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427088355542:android:b126d2a786b30cd9",
+        "android_client_info": {
+          "package_name": "com.example.ivan.crib2castle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427088355542-fc39af4lieurdaf6jhhsqmk00257bhfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMfpkn44PQPV3kZ2YYFoPJG_o2z6rVwxE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

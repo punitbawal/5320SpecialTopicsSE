@@ -30,6 +30,12 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // setting widgets
+        loadWidgets();
+
+
+    }
+
+    public void loadWidgets() {
         TextView tvLogin = (TextView) findViewById(R.id.tvLogin);
         TextView tvGuest = (TextView) findViewById(R.id.tvGuest);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
@@ -37,34 +43,38 @@ public class LoginActivity extends AppCompatActivity {
 
         // setting listeners
         tvLogin.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View v) {
+            public void onClick(View v) {
 
-               if(etEmail.getText().toString().length() == 0 || etPassword.getText().toString().length() == 0 ) {
-                   Toast.makeText(LoginActivity.this, "Email/password field is empty.",
-                           Toast.LENGTH_SHORT).show();
-               } else {
+                if(etEmail.getText().toString().length() == 0 || etPassword.getText().toString().length() == 0 ) {
+                    Toast.makeText(LoginActivity.this, "Email/password field is empty.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
                     boolean isConnected = new Utils().checkForNetworkConnection(LoginActivity.this);
-                   if(isConnected) {
-                       authenticate(etEmail.getText().toString(), etPassword.getText().toString());
-                   } else {
-                       Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
-                               Toast.LENGTH_SHORT).show();
-                   }
+                    if(isConnected) {
+                        authenticate(etEmail.getText().toString(), etPassword.getText().toString());
+                    } else {
+                        Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-               }
-
-
+                }
 
 
-           }
+
+
+            }
         });
 
         tvGuest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                guestLogin();
+                boolean isConnected = new Utils().checkForNetworkConnection(LoginActivity.this);
+                if(isConnected)
+                    guestLogin();
+                else
+                    Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
+                            Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     public void authenticate(String email, String password) {

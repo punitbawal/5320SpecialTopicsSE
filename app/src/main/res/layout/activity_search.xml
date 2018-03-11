@@ -25,9 +25,31 @@
             android:id="@+id/lvHomes"
             android:layout_width="395dp"
             android:layout_height="587dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
             tools:layout_editor_absoluteX="8dp" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="120px"
+            android:ems="10"
+            android:hint="Search by city, state, or zip..."
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/ibSearch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <ImageButton
+            android:id="@+id/ibSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:background="@color/colorPrimary"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:srcCompat="@drawable/ic_search" />
+
     </android.support.constraint.ConstraintLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->

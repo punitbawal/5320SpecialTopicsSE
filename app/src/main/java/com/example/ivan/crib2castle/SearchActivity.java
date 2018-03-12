@@ -37,8 +37,8 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        String uId = getIntent().getStringExtra("UserId");
-        loadActionBar(uId.equals("-1"));
+        String uId = getIntent().getStringExtra("uId");
+        loadActionBar(uId);
         loadWidgets();
 
 
@@ -110,7 +110,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
     }
 
     @Override
-    public void processFinish(Double[] result) {
+    public void locationApiFinish(Double[] result) {
         loadHomesFromDb(result[0], result[1], 10.0);
     }
 

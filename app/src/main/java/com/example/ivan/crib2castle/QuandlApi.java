@@ -62,6 +62,6 @@ public class QuandlApi extends AsyncTask<String, Void, Double>{
     }
 
     protected void onPostExecute(Double result) {
-        delegate.processFinish(result);
+        delegate.quandlApiFinish(result);
     }
 }

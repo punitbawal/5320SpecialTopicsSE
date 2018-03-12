@@ -5,5 +5,5 @@ package com.example.ivan.crib2castle;
  */
 
 public interface LocationApiResponse {
-    void processFinish(Double[] result);
+    void locationApiFinish(Double[] result);
 }

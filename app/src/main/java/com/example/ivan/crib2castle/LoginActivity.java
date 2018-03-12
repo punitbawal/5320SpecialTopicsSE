@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent i = new Intent(LoginActivity.this, SearchActivity.class);
-                            i.putExtra("UserId", user.getUid());
+                            i.putExtra("uId", user.getUid());
                             startActivity(i);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Intent i = new Intent(LoginActivity.this, SearchActivity.class);
-                            i.putExtra("UserId", "-1");
+                            i.putExtra("uId", "-1");
                             startActivity(i);
                         } else {
                             // If sign in fails, display a message to the user.

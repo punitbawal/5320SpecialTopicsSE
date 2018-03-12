@@ -5,5 +5,5 @@ package com.example.ivan.crib2castle;
  */
 
 public interface QuandlApiResponse {
-    void processFinish(Double response);
+    void quandlApiFinish(Double response);
 }

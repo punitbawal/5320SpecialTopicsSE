@@ -1,6 +1,5 @@
 package com.example.ivan.crib2castle;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,9 +16,9 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Ivan on 2/18/18.
  */
 
-public class QuandlAPI extends AsyncTask<String, Void, Double>{
+public class QuandlApi extends AsyncTask<String, Void, Double>{
 
-    public QuandlResponse delegate=null;
+    public QuandlApiResponse delegate=null;
     final String quandlKey = "K68xk9xqc2k8rzUPwJV1";
 
     protected Double doInBackground(String... zip) {

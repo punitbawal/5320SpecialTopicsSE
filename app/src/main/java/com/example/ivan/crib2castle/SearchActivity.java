@@ -10,7 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,7 +30,7 @@ import java.util.ArrayList;
  * Created by Ivan on 2/17/18.
  */
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements LocationApiResponse {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +39,26 @@ public class SearchActivity extends BaseActivity {
 
         String uId = getIntent().getStringExtra("UserId");
         loadActionBar(uId.equals("-1"));
-        loadHomesFromDB();
+        loadWidgets();
 
 
 
 
 
+    }
+
+    public void loadWidgets() {
+        final EditText etSearch = (EditText) findViewById(R.id.etSearch);
+        ImageButton ibSearch = (ImageButton) findViewById(R.id.ibSearch);
+
+        ibSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LocationApi locApi = new LocationApi();
+                locApi.delegate = SearchActivity.this;
+                locApi.execute(etSearch.getText().toString());
+            }
+        });
     }
 
 
@@ -50,7 +67,12 @@ public class SearchActivity extends BaseActivity {
     /*
      * loads the listview with homes from the database
      */
-    public void loadHomesFromDB() {
+    public void loadHomesFromDb(Double latitude, Double longitude, Double radius) {
+
+        final double lat1 = latitude;
+        final double lng1 = longitude;
+        final double dist = radius;
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("homes");
 
@@ -60,7 +82,12 @@ public class SearchActivity extends BaseActivity {
                 ArrayList<Home> homeArrayList = new ArrayList<>();
                 for(DataSnapshot childrenSnapshot:dataSnapshot.getChildren()) {
                     Home home = childrenSnapshot.getValue(Home.class);
-                    homeArrayList.add(home);
+                    double lat2 = home.getAddress().getLatitude();
+                    double lng2 = home.getAddress().getLongitude();
+                    Utils u = new Utils();
+                    if(u.getDistanceFromLatLng(lat1, lng1, lat2, lng2) <= dist) {
+                        homeArrayList.add(home);
+                    }
                 }
 
                 SearchActivity.this.populateListview(homeArrayList);
@@ -80,6 +107,11 @@ public class SearchActivity extends BaseActivity {
 
         HomeListAdapter homeListAdapter = new HomeListAdapter(this, R.layout.home_item, homeArrayList);
         lvHomes.setAdapter(homeListAdapter);
+    }
+
+    @Override
+    public void processFinish(Double[] result) {
+        loadHomesFromDb(result[0], result[1], 10.0);
     }
 
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Crib2Castle</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_login">Sign In</string>
 </resources>

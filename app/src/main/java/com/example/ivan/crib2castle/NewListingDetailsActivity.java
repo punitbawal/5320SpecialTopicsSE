@@ -5,8 +5,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class NewListingDetailsActivity extends BaseActivity implements QuandlApiResponse {
 
@@ -35,7 +40,19 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
 
     public void loadWidgets() {
         final TextView tvAddress = (TextView) findViewById(R.id.tvAddress);
+
+        final EditText etYear = (EditText) findViewById(R.id.etYear);
         final EditText etSqft = (EditText) findViewById(R.id.etSqft);
+        final EditText etBeds = (EditText) findViewById(R.id.etBeds);
+        final EditText etBaths = (EditText) findViewById(R.id.etBaths);
+        final EditText etPrice = (EditText) findViewById(R.id.etPrice);
+        final EditText etDetails = (EditText) findViewById(R.id.etDetails);
+
+
+
+
+        final TextView tvSubmit = (TextView) findViewById(R.id.tvSubmit);
+
 
         etSqft.addTextChangedListener(new TextWatcher() {
             @Override
@@ -57,6 +74,29 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         });
 
         tvAddress.setText(home.getAddress().toSingleLineString());
+
+        tvSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etYear.getText().toString().length()==0 || etSqft.getText().toString().length()==0
+                        || etBeds.getText().toString().length()==0 || etBaths.getText().toString().length()==0
+                        || etPrice.getText().toString().length()==0 || etDetails.getText().toString().length()==0) {
+                    Toast.makeText(NewListingDetailsActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                home.sethId(new Utils().randString(10));
+                home.setYear(Integer.parseInt(etYear.getText().toString()));
+                home.setSqft(Integer.parseInt(etSqft.getText().toString()));
+                home.setBedrooms(Double.parseDouble(etBeds.getText().toString()));
+                home.setBathrooms(Double.parseDouble(etBaths.getText().toString()));
+                home.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                home.setDetails(etDetails.getText().toString());
+                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+                dbRef.child("homes").child(home.gethId()).setValue(home);
+                Toast.makeText(NewListingDetailsActivity.this, "New listing added", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 

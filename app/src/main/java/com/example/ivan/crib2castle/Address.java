@@ -17,6 +17,7 @@ public class Address implements Serializable {
     private Double latitude;
     private Double longitude;
 
+    public Address() {}
 
     public String getAddress1() {
         return address1;

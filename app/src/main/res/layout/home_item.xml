@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
-        android:text="TextView"
+        android:text="Address\nAddress"
         app:layout_constraintEnd_toStartOf="@+id/tvBedBaths"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,21 +19,22 @@
 
     <TextView
         android:id="@+id/tvBedBaths"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
         android:layout_marginTop="2dp"
-        android:text="TextView"
+        android:text="3.0/3.0"
         app:layout_constraintEnd_toStartOf="@+id/tvPrice"
         app:layout_constraintStart_toEndOf="@+id/tvAddress"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
-        android:text="TextView"
+        android:text="Price"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvBedBaths"
         app:layout_constraintTop_toTopOf="parent" />

@@ -5,11 +5,29 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import java.util.Random;
+
 /**
  * Created by Ivan on 3/3/18.
  */
 
 public class Utils {
+
+
+    /*
+     * generates a random string of length n
+     */
+    public String randString(int n) {
+        String randString = "";
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        Random r = new Random();
+        for(int i=0; i<n; i++){
+            randString += alphabet.charAt(r.nextInt(alphabet.length()));
+        }
+        return randString;
+    }
+
 
     /*
      * compares two addresses for equality
@@ -42,6 +60,9 @@ public class Utils {
     }
 
 
+    /*
+     * calculates distance between two points (lng, lat) in miles
+     */
     public double getDistanceFromLatLng(double lat1, double lng1, double lat2, double lng2) {
         double R = 3959; // Radius of the earth in mi
         double dLat = degToRad(lat2-lat1);  // deg2rad below

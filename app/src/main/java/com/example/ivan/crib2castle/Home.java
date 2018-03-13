@@ -7,10 +7,24 @@ import java.io.Serializable;
  */
 
 public class Home implements Serializable {
+    private String hId;
+    private int year;
+    private int sqft;
     private double price;
     private double bedrooms;
     private double bathrooms;
     private Address address;
+    private String details;
+
+    public Home() {}
+
+    public String gethId() {
+        return hId;
+    }
+
+    public void sethId(String hId) {
+        this.hId = hId;
+    }
 
     public double getPrice() {
         return price;
@@ -42,5 +56,30 @@ public class Home implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getSqft() {
+        return sqft;
+    }
+
+    public void setSqft(int sqft) {
+        this.sqft = sqft;
     }
 }

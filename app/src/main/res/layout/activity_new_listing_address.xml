@@ -45,7 +45,9 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map" />
+            app:layout_constraintTop_toBottomOf="@+id/map">
+            <requestFocus />
+        </EditText>
 
 
         <EditText
@@ -60,10 +62,12 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress1" />
+            app:layout_constraintTop_toBottomOf="@+id/etAddress1">
+            <requestFocus />
+        </EditText>
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/etCity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -72,12 +76,14 @@
             android:ems="10"
             android:hint="City"
             android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/editText2"
+            app:layout_constraintEnd_toStartOf="@+id/etState"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress2" />
+            app:layout_constraintTop_toBottomOf="@+id/etAddress2">
+            <requestFocus />
+        </EditText>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/etState"
             android:layout_width="100dp"
             android:layout_height="47dp"
             android:layout_marginTop="15dp"
@@ -86,10 +92,12 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress2" />
+            app:layout_constraintTop_toBottomOf="@+id/etAddress2">
+            <requestFocus />
+        </EditText>
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/etZip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -99,8 +107,10 @@
             android:hint="Zip"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editText2"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress2" />
+            app:layout_constraintStart_toEndOf="@+id/etState"
+            app:layout_constraintTop_toBottomOf="@+id/etAddress2">
+            <requestFocus />
+        </EditText>
 
         <TextView
             android:id="@+id/tvVerifySubmit"
@@ -108,22 +118,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:layout_marginEnd="8dp"
-            android:text="Verify Address"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/tvCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
             android:layout_marginStart="8dp"
-            android:text="Cancel"
+            android:text="Verify Address"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

@@ -10,6 +10,21 @@ import android.net.NetworkInfo;
 
 public class Utils {
 
+    /*
+     * compares two addresses for equality
+     */
+    public boolean compareAddresses(Address address1, Address address2) {
+        String strAddress1 = address1.toSingleLineString();
+        String strAddress2 = address2.toSingleLineString();
+        strAddress1 = strAddress1.toLowerCase();
+        strAddress2 = strAddress2.toLowerCase();
+        strAddress1 = strAddress1.replace(" ", "");
+        strAddress2 = strAddress2.replace(" ","");
+        strAddress1 = strAddress1.replace("/[^A-Za-z0-9]/", "");
+        strAddress2 = strAddress2.replace("/[^A-Za-z0-9]/", "");
+        return strAddress1.equals(strAddress2);
+    }
+
     public double getDistanceFromLatLng(double lat1, double lng1, double lat2, double lng2) {
         double R = 3959; // Radius of the earth in mi
         double dLat = deg2rad(lat2-lat1);  // deg2rad below

@@ -1,10 +1,12 @@
 package com.example.ivan.crib2castle;
 
+import java.io.Serializable;
+
 /**
  * Created by Ivan on 2/24/18.
  */
 
-public class Home {
+public class Home implements Serializable {
     private double price;
     private double bedrooms;
     private double bathrooms;

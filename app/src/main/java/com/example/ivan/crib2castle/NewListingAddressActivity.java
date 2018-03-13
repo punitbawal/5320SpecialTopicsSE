@@ -164,6 +164,7 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
 
                 if(verify) {
 
+                    // querying DB for duplicate addresses
                     final boolean[] duplicateAddress = new boolean[] {false};
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -179,6 +180,14 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
                                     duplicateAddress[0] = true;
                                 }
                             }
+
+                            if(!duplicateAddress[0]) {
+                                LocationApi locApi = new LocationApi();
+                                locApi.delegate = NewListingAddressActivity.this;
+                                locApi.execute(address.toSingleLineString());
+                            } else {
+                                Toast.makeText(NewListingAddressActivity.this, "Address already listed", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -188,13 +197,7 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
                         }
                     });
 
-                    if(!duplicateAddress[0]) {
-                        LocationApi locApi = new LocationApi();
-                        locApi.delegate = NewListingAddressActivity.this;
-                        locApi.execute(address.toSingleLineString());
-                    } else {
-                        Toast.makeText(NewListingAddressActivity.this, "Address already listed", Toast.LENGTH_SHORT).show();
-                    }
+
 
 
                 } else {

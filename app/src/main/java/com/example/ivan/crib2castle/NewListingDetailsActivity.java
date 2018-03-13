@@ -48,7 +48,10 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
             public void afterTextChanged(Editable editable) {
                 if(etSqft.getText().toString().length() != 0) {
                     int sqft = Integer.parseInt(etSqft.getText().toString());
-                    tvEstimate.setText("Quandl Estimate\n"+String.valueOf(Math.round(ppsqft*sqft)));
+                    Utils utils = new Utils();
+                    tvEstimate.setText("Quandl Estimate\n$"+utils.numberToCurrency(Math.round(ppsqft*sqft)));
+                } else {
+                    tvEstimate.setText("Quandl Estimate");
                 }
             }
         });

@@ -66,13 +66,18 @@ public class BaseActivity extends AppCompatActivity {
                         Intent i;
 
                         switch(menuItem.getItemId()) {
+                            case R.id.mItmSearch:
+                                i = new Intent(BaseActivity.this, SearchActivity.class);
+                                i.putExtra("uId", userId);
+                                startActivity(i);
+                                break;
                             case R.id.mItmLogin: case R.id.mItmLogout:
                                 FirebaseAuth.getInstance().signOut();
                                 i = new Intent(BaseActivity.this, LoginActivity.class);
                                 startActivity(i);
                                 break;
                             case R.id.mItmNewListing:
-                                i = new Intent(BaseActivity.this, NewListingActivityAddress.class);
+                                i = new Intent(BaseActivity.this, NewListingAddressActivity.class);
                                 i.putExtra("uId", userId);
                                 startActivity(i);
                                 break;

@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/mItmSearch"
+            android:icon="@drawable/ic_menu_search"
+            android:title="@string/menu_search" />
+        <item
             android:id="@+id/mItmNewListing"
             android:icon="@drawable/ic_menu_new_listing"
             android:title="@string/menu_new_listing" />

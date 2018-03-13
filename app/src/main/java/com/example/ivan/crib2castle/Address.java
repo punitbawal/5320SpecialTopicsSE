@@ -1,10 +1,12 @@
 package com.example.ivan.crib2castle;
 
+import java.io.Serializable;
+
 /**
  * Created by Ivan on 2/24/18.
  */
 
-public class Address {
+public class Address implements Serializable {
 
     private String address1;
     private String address2;
@@ -56,12 +58,6 @@ public class Address {
         this.zip = zip;
     }
 
-    public String toString() {
-        if(address2 != null)
-            return address1+"\n"+address2+"\n"+city+", "+state+" "+zip;
-        else
-            return address1+"\n"+city+", "+state+" "+zip;
-    }
 
     public Double getLatitude() {
         return latitude;
@@ -77,5 +73,19 @@ public class Address {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public String toString() {
+        if(address2 != null)
+            return address1+"\n"+address2+"\n"+city+", "+state+" "+zip;
+        else
+            return address1+"\n"+city+", "+state+" "+zip;
+    }
+
+    public String toSingleLineString() {
+        if(address2 != null)
+            return address1+", "+address2+", "+city+", "+state+" "+zip;
+        else
+            return address1+", "+city+", "+state+" "+zip;
     }
 }

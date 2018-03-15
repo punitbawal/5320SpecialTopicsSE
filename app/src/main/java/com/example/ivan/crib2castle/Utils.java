@@ -55,6 +55,7 @@ public class Utils {
             if(i%3 == 2) strCurrency = ","+strCurrency;
             number /= 10;
         }
+        if(strCurrency.length() == 0) return strCurrency;
         if(strCurrency.charAt(0) == ',') strCurrency = strCurrency.substring(1);
         return strCurrency;
     }

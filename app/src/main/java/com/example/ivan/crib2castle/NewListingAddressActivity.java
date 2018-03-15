@@ -165,23 +165,23 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
                 if(verify) {
 
                     // querying DB for duplicate addresses
-                    final boolean[] duplicateAddress = new boolean[] {false};
-
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("homes");
 
-                    myRef.addValueEventListener(new ValueEventListener() {
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            boolean duplicateAddress = false;
+
                             for(DataSnapshot childrenSnapshot:dataSnapshot.getChildren()) {
                                 Home home = childrenSnapshot.getValue(Home.class);
                                 Utils u = new Utils();
                                 if(u.compareAddresses(home.getAddress(), address)) {
-                                    duplicateAddress[0] = true;
+                                    duplicateAddress = true;
                                 }
                             }
 
-                            if(!duplicateAddress[0]) {
+                            if(!duplicateAddress) {
                                 LocationApi locApi = new LocationApi();
                                 locApi.delegate = NewListingAddressActivity.this;
                                 locApi.execute(address.toSingleLineString());

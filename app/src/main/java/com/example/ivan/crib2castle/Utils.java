@@ -29,20 +29,6 @@ public class Utils {
     }
 
 
-    /*
-     * compares two addresses for equality
-     */
-    public boolean compareAddresses(Address address1, Address address2) {
-        String strAddress1 = address1.toSingleLineString();
-        String strAddress2 = address2.toSingleLineString();
-        strAddress1 = strAddress1.toLowerCase();
-        strAddress2 = strAddress2.toLowerCase();
-        strAddress1 = strAddress1.replace(" ", "");
-        strAddress2 = strAddress2.replace(" ","");
-        strAddress1 = strAddress1.replace("/[^A-Za-z0-9]/", "");
-        strAddress2 = strAddress2.replace("/[^A-Za-z0-9]/", "");
-        return strAddress1.equals(strAddress2);
-    }
 
     /*
      * formats number to currency format

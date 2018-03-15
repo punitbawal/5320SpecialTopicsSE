@@ -164,40 +164,9 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
 
                 if(verify) {
 
-                    // querying DB for duplicate addresses
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("homes");
-
-                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            boolean duplicateAddress = false;
-
-                            for(DataSnapshot childrenSnapshot:dataSnapshot.getChildren()) {
-                                Home home = childrenSnapshot.getValue(Home.class);
-                                Utils u = new Utils();
-                                if(u.compareAddresses(home.getAddress(), address)) {
-                                    duplicateAddress = true;
-                                }
-                            }
-
-                            if(!duplicateAddress) {
-                                LocationApi locApi = new LocationApi();
-                                locApi.delegate = NewListingAddressActivity.this;
-                                locApi.execute(address.toSingleLineString());
-                            } else {
-                                Toast.makeText(NewListingAddressActivity.this, "Address already listed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Failed to read value
-                            Log.w("C2C", "Failed to read value.", databaseError.toException());
-                        }
-                    });
-
-
+                    LocationApi locApi = new LocationApi();
+                    locApi.delegate = NewListingAddressActivity.this;
+                    locApi.execute(address.toSingleLineString());
 
 
                 } else {
@@ -232,12 +201,49 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
 
     @Override
     public void locationApiFinish(Double[] result) {
-        if(Math.abs(result[0]) >= 0.00001 && Math.abs(result[1]) >= 0.00001) {
-            latLng = result;
-            updateMap(result[0], result[1]);
-        } else {
-            Toast.makeText(NewListingAddressActivity.this, "Address not found, please try again.", Toast.LENGTH_SHORT).show();
-        }
+
+        final double lat = result[0];
+        final double lng = result[1];
+
+        // querying DB for duplicate addresses
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("homes");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                boolean duplicateAddress = false;
+
+                for(DataSnapshot childrenSnapshot:dataSnapshot.getChildren()) {
+                    Home h = childrenSnapshot.getValue(Home.class);
+                    Utils u = new Utils();
+                    if(u.getDistanceFromLatLng(lat, lng, h.getAddress().getLatitude(), h.getAddress().getLongitude()) <= 0.001) {
+                        duplicateAddress = true;
+                    }
+                }
+
+                if(!duplicateAddress) {
+                    if(Math.abs(lat) >= 0.00001 && Math.abs(lng) >= 0.00001) {
+                        latLng = new Double[] {lat, lng};
+                        updateMap(lat, lng);
+                    } else {
+                        Toast.makeText(NewListingAddressActivity.this, "Address not found, please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(NewListingAddressActivity.this, "Address already listed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                Log.w("C2C", "Failed to read value.", databaseError.toException());
+            }
+        });
+
+
     }
 
     @Override

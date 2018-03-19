@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-
         <!--
      The API key for Google Maps-based APIs is defined as a string resource.
      (See the file "res/values/google_maps_api.xml").
@@ -30,13 +29,12 @@
      You need a different API key for each encryption key, including the release key that is used to
      sign the APK for publishing.
      You can define the keys for the debug and release targets in src/debug/ and src/release/.
--->
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".SearchActivity">
             <intent-filter>
                 <action android:name="com.example.ivan.crib2castle.SearchActivity" />
@@ -58,8 +56,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".NewListingDetailsActivity">
             <intent-filter>
                 <action android:name="com.example.ivan.crib2castle.NewListingDetailsActivity" />
@@ -67,6 +63,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".HomeDetailsActivity" />
+        <activity
+            android:name=".DisplayImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_display_image"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

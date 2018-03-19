@@ -1,6 +1,7 @@
 package com.example.ivan.crib2castle;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Ivan on 2/24/18.
@@ -10,11 +11,12 @@ public class Home implements Serializable {
     private String hId;
     private int year;
     private int sqft;
-    private double price;
-    private double bedrooms;
-    private double bathrooms;
+    private long price;
+    private int bedrooms;
+    private int bathrooms;
     private Address address;
     private String details;
+    private int numImages;
 
     public Home() {}
 
@@ -26,27 +28,27 @@ public class Home implements Serializable {
         this.hId = hId;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public double getBedrooms() {
+    public int getBedrooms() {
         return bedrooms;
     }
 
-    public void setBedrooms(double bedrooms) {
+    public void setBedrooms(int bedrooms) {
         this.bedrooms = bedrooms;
     }
 
-    public double getBathrooms() {
+    public int getBathrooms() {
         return bathrooms;
     }
 
-    public void setBathrooms(double bathrooms) {
+    public void setBathrooms(int bathrooms) {
         this.bathrooms = bathrooms;
     }
 
@@ -81,5 +83,13 @@ public class Home implements Serializable {
 
     public void setSqft(int sqft) {
         this.sqft = sqft;
+    }
+
+    public int getNumImages() {
+        return numImages;
+    }
+
+    public void setNumImages(int numImages) {
+        this.numImages = numImages;
     }
 }

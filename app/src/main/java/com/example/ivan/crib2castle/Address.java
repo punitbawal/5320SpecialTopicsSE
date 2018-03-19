@@ -78,7 +78,7 @@ public class Address implements Serializable {
 
     public String toString() {
         if(address2 != null)
-            return address1+"\n"+address2+"\n"+city+", "+state+" "+zip;
+            return address1+", "+address2+"\n"+city+", "+state+" "+zip;
         else
             return address1+"\n"+city+", "+state+" "+zip;
     }

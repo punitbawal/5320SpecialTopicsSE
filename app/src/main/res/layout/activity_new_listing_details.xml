@@ -134,8 +134,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="Additional Details... (i.e. newly rennovated, etc)"
+            android:hint="Additional Details... (general description, garage size, pool, school district, etc)\n"
             android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:minLines="3"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +148,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginTop="8dp"
-            android:background="@color/gray"
+            android:background="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etDetails" />
@@ -171,8 +173,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:text="next"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:text="▶"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             app:layout_constraintBottom_toBottomOf="@+id/iswPhotos"
             app:layout_constraintStart_toEndOf="@+id/iswPhotos"
             app:layout_constraintTop_toTopOf="@+id/iswPhotos" />
@@ -184,8 +186,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
-            android:text="prev"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:text="◀"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             app:layout_constraintBottom_toTopOf="@+id/btnUpload"
             app:layout_constraintEnd_toStartOf="@+id/iswPhotos"
             app:layout_constraintTop_toTopOf="@+id/iswPhotos" />
@@ -201,6 +203,17 @@
             app:layout_constraintHorizontal_bias="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iswPhotos" />
+
+        <ImageView
+            android:id="@+id/ivFullscreen"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->

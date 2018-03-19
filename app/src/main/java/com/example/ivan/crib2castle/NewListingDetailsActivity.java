@@ -10,10 +10,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,6 +79,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         final Button btnDelete = (Button) findViewById(R.id.btnDelete);
         final Button btnUpload = (Button) findViewById(R.id.btnUpload);
         iswPhotos = (ImageSwitcher) findViewById(R.id.iswPhotos);
+        final ImageView ivFullscreen = (ImageView) findViewById(R.id.ivFullscreen);
 
 
 
@@ -108,14 +111,35 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
             @Override
             public View makeView() {
                 ImageView iv = new ImageView(NewListingDetailsActivity.this);
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                iv.setLayoutParams(layoutParams);
                 iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ivFullscreen.setImageURI(imageUris.get(imgIndex));
+                        ivFullscreen.bringToFront();
+                        ivFullscreen.setVisibility(View.VISIBLE);
+                    }
+                });
                 return iv;
             }
         });
-        Animation animIn = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.slide_in_left);
-        Animation animOut = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.slide_out_right);
+        Animation animIn = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.fade_in);
+        Animation animOut = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.fade_out);
         iswPhotos.setInAnimation(animIn);
         iswPhotos.setOutAnimation(animOut);
+
+
+        ivFullscreen.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        ivFullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ivFullscreen.setImageBitmap(null);
+                ivFullscreen.setVisibility(View.GONE);
+            }
+        });
 
         tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,10 +193,11 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
                 home.sethId(new Utils().randString(10));
                 home.setYear(Integer.parseInt(etYear.getText().toString()));
                 home.setSqft(Integer.parseInt(etSqft.getText().toString()));
-                home.setBedrooms(Double.parseDouble(etBeds.getText().toString()));
-                home.setBathrooms(Double.parseDouble(etBaths.getText().toString()));
-                home.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                home.setBedrooms(Integer.parseInt(etBeds.getText().toString()));
+                home.setBathrooms(Integer.parseInt(etBaths.getText().toString()));
+                home.setPrice(Long.parseLong(etPrice.getText().toString()));
                 home.setDetails(etDetails.getText().toString());
+                home.setNumImages(imageUris.size());
                 Toast.makeText(NewListingDetailsActivity.this, "Adding listing... Please be patient", Toast.LENGTH_LONG).show();
 
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
@@ -225,7 +250,9 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 imagesUploaded++;
                 if(imagesUploaded==imageUris.size()) {
-                    Toast.makeText(NewListingDetailsActivity.this, "Listing added successfully", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(NewListingDetailsActivity.this, SearchActivity.class);
+                    i.putExtra("uId", uId);
+                    startActivity(i);
                 }
             }
         });

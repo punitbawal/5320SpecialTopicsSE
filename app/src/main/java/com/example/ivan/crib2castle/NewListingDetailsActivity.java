@@ -191,6 +191,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
                     return;
                 }
                 home.sethId(new Utils().randString(10));
+                home.setuId(uId);
                 home.setYear(Integer.parseInt(etYear.getText().toString()));
                 home.setSqft(Integer.parseInt(etSqft.getText().toString()));
                 home.setBedrooms(Integer.parseInt(etBeds.getText().toString()));

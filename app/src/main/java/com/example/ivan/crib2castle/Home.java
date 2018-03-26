@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Home implements Serializable {
     private String hId;
+    private String uId;
     private int year;
     private int sqft;
     private long price;
@@ -27,6 +28,10 @@ public class Home implements Serializable {
     public void sethId(String hId) {
         this.hId = hId;
     }
+
+    public String getuId() {return uId;}
+
+    public void setuId(String uId) { this.uId = uId; }
 
     public long getPrice() {
         return price;

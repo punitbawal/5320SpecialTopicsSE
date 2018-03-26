@@ -122,6 +122,15 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
 
     public void populateListview(ArrayList<Home> homeArrayList) {
 
+        TextView tvNoResults = (TextView) findViewById(R.id.tvNoResults);
+
+        if(homeArrayList.size() == 0){
+            tvNoResults.setVisibility(View.VISIBLE);
+        } else {
+            tvNoResults.setVisibility(View.GONE);
+
+        }
+
         ListView lvHomes = (ListView) findViewById(R.id.lvHomes);
 
         HomeListAdapter homeListAdapter = new HomeListAdapter(this, R.layout.home_item, homeArrayList);

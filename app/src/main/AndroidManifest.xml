@@ -68,7 +68,8 @@
             android:name=".DisplayImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_display_image"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".ViewListingsActivity"></activity>
     </application>
 
 </manifest>

@@ -47,6 +47,7 @@ public class BaseActivity extends AppCompatActivity {
 
             menu.findItem(R.id.mItmLogout).setVisible(false);
             menu.findItem(R.id.mItmNewListing).setVisible(false);
+            menu.findItem(R.id.mItmEditListing).setVisible(false);
 
 
         } else {
@@ -78,6 +79,11 @@ public class BaseActivity extends AppCompatActivity {
                                 break;
                             case R.id.mItmNewListing:
                                 i = new Intent(BaseActivity.this, NewListingAddressActivity.class);
+                                i.putExtra("uId", userId);
+                                startActivity(i);
+                                break;
+                            case R.id.mItmEditListing:
+                                i = new Intent(BaseActivity.this, ViewListingsActivity.class);
                                 i.putExtra("uId", userId);
                                 startActivity(i);
                                 break;

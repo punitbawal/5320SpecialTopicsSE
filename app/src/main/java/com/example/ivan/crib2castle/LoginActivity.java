@@ -1,12 +1,9 @@
 package com.example.ivan.crib2castle;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView tvGuest = (TextView) findViewById(R.id.tvGuest);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-
+        final TextView tvSignup = (TextView) findViewById(R.id.tv_signuplink);
         // setting listeners
         tvLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -79,6 +78,21 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        tvSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isConnected = new Utils().checkForNetworkConnection(LoginActivity.this);
+                if(isConnected) {
+                    Intent intent = new Intent(LoginActivity.this, RegisterUserActivity.class);
+                    startActivity(intent);
+                }
+                else
+                    Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
+                            Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     public void authenticate(String email, String password) {
@@ -102,5 +116,4 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

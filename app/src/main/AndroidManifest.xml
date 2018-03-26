@@ -63,6 +63,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterUserActivity">
+            <intent-filter>
+                <action android:name="com.example.ivan.crib2castle.RegisterUserActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".HomeDetailsActivity" />
         <activity
             android:name=".DisplayImageActivity"

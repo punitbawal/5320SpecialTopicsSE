@@ -15,6 +15,7 @@
         android:layout_marginBottom="7dp"
         android:layout_marginEnd="39dp"
         android:layout_marginStart="39dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="start"
         android:ems="10"
         android:gravity="center_horizontal"
@@ -24,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@+id/etPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLogo" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -49,9 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:text="- Login -"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/colorPrimaryDark"
+        android:text="Login"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/tvGuest"
         app:layout_constraintEnd_toEndOf="@+id/tvGuest"
         app:layout_constraintStart_toStartOf="@+id/tvGuest"
@@ -62,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="243dp"
-        android:text="- Sign in as Guest -"
+        android:text="Sign in as Guest"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,19 +71,6 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
-
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="249dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="14dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/etEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/c2chorizontallogo" />
 
     <TextView
         android:id="@+id/tv_forgotpwdlink"
@@ -107,6 +95,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvGuest"
         android:layout_marginRight="44dp" />
+
+    <TextView
+        android:id="@+id/tvLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="C2C"
+        android:textColor="@color/white"
+        android:textSize="72sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

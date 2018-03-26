@@ -27,7 +27,10 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
     }
 
-    public void loadActionBar(boolean asGuest) {
+    public void loadActionBar(String uId) {
+
+        final String userId = uId;
+        boolean asGuest = uId.equals("-1");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
         if(asGuest) {
 
             menu.findItem(R.id.mItmLogout).setVisible(false);
+            menu.findItem(R.id.mItmNewListing).setVisible(false);
 
 
         } else {
@@ -59,11 +63,22 @@ public class BaseActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
+                        Intent i;
 
                         switch(menuItem.getItemId()) {
+                            case R.id.mItmSearch:
+                                i = new Intent(BaseActivity.this, SearchActivity.class);
+                                i.putExtra("uId", userId);
+                                startActivity(i);
+                                break;
                             case R.id.mItmLogin: case R.id.mItmLogout:
                                 FirebaseAuth.getInstance().signOut();
-                                Intent i = new Intent(BaseActivity.this, LoginActivity.class);
+                                i = new Intent(BaseActivity.this, LoginActivity.class);
+                                startActivity(i);
+                                break;
+                            case R.id.mItmNewListing:
+                                i = new Intent(BaseActivity.this, NewListingAddressActivity.class);
+                                i.putExtra("uId", userId);
                                 startActivity(i);
                                 break;
                             default:

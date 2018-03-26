@@ -1,5 +1,6 @@
 package com.example.ivan.crib2castle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,11 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,13 +35,15 @@ import java.util.ArrayList;
 
 public class SearchActivity extends BaseActivity implements LocationApiResponse {
 
+    String uId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        String uId = getIntent().getStringExtra("UserId");
-        loadActionBar(uId.equals("-1"));
+        uId = getIntent().getStringExtra("uId");
+        loadActionBar(uId);
         loadWidgets();
 
 
@@ -50,6 +55,8 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
     public void loadWidgets() {
         final EditText etSearch = (EditText) findViewById(R.id.etSearch);
         ImageButton ibSearch = (ImageButton) findViewById(R.id.ibSearch);
+        ListView lvHomes = (ListView) findViewById(R.id.lvHomes);
+        final Context context = SearchActivity.this;
 
         ibSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +66,18 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
                 locApi.execute(etSearch.getText().toString());
             }
         });
+
+        lvHomes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Home home = (Home) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(context, HomeDetailsActivity.class);
+                intent.putExtra("uId", uId);
+                intent.putExtra("home", home);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -107,10 +126,11 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
 
         HomeListAdapter homeListAdapter = new HomeListAdapter(this, R.layout.home_item, homeArrayList);
         lvHomes.setAdapter(homeListAdapter);
+
     }
 
     @Override
-    public void processFinish(Double[] result) {
+    public void locationApiFinish(Double[] result) {
         loadHomesFromDb(result[0], result[1], 10.0);
     }
 

@@ -34,10 +34,11 @@ public class HomeListAdapter extends ArrayAdapter<Home> {
         TextView tvBedBaths = (TextView) convertView.findViewById(R.id.tvBedBaths);
         TextView tvPrice = (TextView) convertView.findViewById(R.id.tvPrice);
 
+        Utils u = new Utils();
         Home home = homeArrayList.get(i);
         tvAddress.setText(home.getAddress().toString());
-        tvBedBaths.setText(home.getBedrooms()+"/"+home.getBathrooms());
-        tvPrice.setText(String.valueOf(home.getPrice()));
+        tvBedBaths.setText(home.getBedrooms()+"bds | "+home.getBathrooms()+"bths\n"+home.getSqft()+" sqft");
+        tvPrice.setText("$"+u.numberToCurrency((long) home.getPrice()));
 
         return convertView;
 

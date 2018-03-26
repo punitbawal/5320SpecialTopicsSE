@@ -61,9 +61,11 @@ public class LocationApi extends AsyncTask<String, Void, Double[]> {
             br.close();
 
             JSONObject mapsData = new JSONObject(response.toString());
-            latitude=mapsData.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
-            longitude=mapsData.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-
+            String status = mapsData.getString("status");
+            if(status.equals("OK")) {
+                latitude=mapsData.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+                longitude=mapsData.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -76,6 +78,6 @@ public class LocationApi extends AsyncTask<String, Void, Double[]> {
     }
 
     protected void onPostExecute(Double[] result) {
-        delegate.processFinish(result);
+        delegate.locationApiFinish(result);
     }
 }

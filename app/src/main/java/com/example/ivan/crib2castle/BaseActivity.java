@@ -46,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
         if(asGuest) {
 
             menu.findItem(R.id.mItmLogout).setVisible(false);
+            menu.findItem(R.id.mItmFavorites).setVisible(false);
             menu.findItem(R.id.mItmNewListing).setVisible(false);
             menu.findItem(R.id.mItmEditListing).setVisible(false);
 
@@ -75,6 +76,11 @@ public class BaseActivity extends AppCompatActivity {
                             case R.id.mItmLogin: case R.id.mItmLogout:
                                 FirebaseAuth.getInstance().signOut();
                                 i = new Intent(BaseActivity.this, LoginActivity.class);
+                                startActivity(i);
+                                break;
+                            case R.id.mItmFavorites:
+                                i = new Intent(BaseActivity.this, FavoritesActivity.class);
+                                i.putExtra("uId", userId);
                                 startActivity(i);
                                 break;
                             case R.id.mItmNewListing:

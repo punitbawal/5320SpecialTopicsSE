@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,19 +17,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ViewListingsActivity extends BaseActivity {
+public class FavoritesActivity extends BaseActivity {
 
-    String uId;
-    Context context;
+    private String uId;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_listings);
+        setContentView(R.layout.activity_favorites);
         uId = getIntent().getStringExtra("uId");
         loadActionBar(uId);
+
         loadHomesFromDb();
-        context = ViewListingsActivity.this;
+        context = FavoritesActivity.this;
 
         ListView lvHomes = (ListView) findViewById(R.id.lvHomes);
 
@@ -38,7 +38,7 @@ public class ViewListingsActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Home home = (Home) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(context, EditListingActivity.class);
+                Intent intent = new Intent(context, HomeDetailsActivity.class);
                 intent.putExtra("uId", uId);
                 intent.putExtra("home", home);
                 startActivity(intent);
@@ -52,20 +52,38 @@ public class ViewListingsActivity extends BaseActivity {
     public void loadHomesFromDb() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("homes");
+        DatabaseReference myRef = database.getReference("favorites").child(uId);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Home> homeArrayList = new ArrayList<>();
+                final ArrayList<String> homeIds = new ArrayList<>();
+                final ArrayList<Home> homeArrayList = new ArrayList<>();
+
                 for(DataSnapshot childrenSnapshot:dataSnapshot.getChildren()) {
-                    Home home = childrenSnapshot.getValue(Home.class);
-                    if(home.getuId().equals(uId)) {
-                        homeArrayList.add(home);
-                    }
+                    homeIds.add(childrenSnapshot.getKey());
                 }
 
-                ViewListingsActivity.this.populateListview(homeArrayList);
+                DatabaseReference hmRef = FirebaseDatabase.getInstance().getReference("homes");
+                hmRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot1) {
+                        for(String hId:homeIds) {
+                            DataSnapshot childSnapshot = dataSnapshot1.child(hId);
+                            Home h=childSnapshot.getValue(Home.class);
+                            homeArrayList.add(h);
+                            FavoritesActivity.this.populateListview(homeArrayList);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
             }
 
             @Override

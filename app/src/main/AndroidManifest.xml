@@ -76,7 +76,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_display_image"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ViewListingsActivity"></activity>
+        <activity android:name=".ViewListingsActivity" />
+        <activity android:name=".EditListingActivity" />
+        <activity android:name=".FavoritesActivity"></activity>
     </application>
 
 </manifest>

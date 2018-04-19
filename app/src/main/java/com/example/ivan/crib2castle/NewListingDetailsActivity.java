@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -107,30 +108,6 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
 
         tvAddress.setText(home.getAddress().toSingleLineString());
 
-        iswPhotos.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView iv = new ImageView(NewListingDetailsActivity.this);
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                iv.setLayoutParams(layoutParams);
-                iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
-                iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ivFullscreen.setImageURI(imageUris.get(imgIndex));
-                        ivFullscreen.bringToFront();
-                        ivFullscreen.setVisibility(View.VISIBLE);
-                    }
-                });
-                return iv;
-            }
-        });
-        Animation animIn = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.fade_in);
-        Animation animOut = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.fade_out);
-        iswPhotos.setInAnimation(animIn);
-        iswPhotos.setOutAnimation(animOut);
-
 
         ivFullscreen.setScaleType(ImageView.ScaleType.FIT_CENTER);
         ivFullscreen.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +115,8 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
             public void onClick(View view) {
                 ivFullscreen.setImageBitmap(null);
                 ivFullscreen.setVisibility(View.GONE);
+                btnDelete.setVisibility(View.VISIBLE);
+                btnUpload.setVisibility(View.VISIBLE);
             }
         });
 
@@ -209,6 +188,32 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
                 }
             }
         });
+
+        iswPhotos.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView iv = new ImageView(NewListingDetailsActivity.this);
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                iv.setLayoutParams(layoutParams);
+                iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ivFullscreen.setImageURI(imageUris.get(imgIndex));
+                        ivFullscreen.bringToFront();
+                        ivFullscreen.setVisibility(View.VISIBLE);
+                        btnDelete.setVisibility(View.INVISIBLE);
+                        btnUpload.setVisibility(View.INVISIBLE);
+                    }
+                });
+                return iv;
+            }
+        });
+        Animation animIn = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.fade_in);
+        Animation animOut = AnimationUtils.loadAnimation(NewListingDetailsActivity.this, android.R.anim.fade_out);
+        iswPhotos.setInAnimation(animIn);
+        iswPhotos.setOutAnimation(animOut);
     }
 
 

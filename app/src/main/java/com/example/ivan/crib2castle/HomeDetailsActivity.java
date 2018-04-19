@@ -1,13 +1,9 @@
 package com.example.ivan.crib2castle;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,25 +16,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.w3c.dom.Text;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class HomeDetailsActivity extends BaseActivity implements DownloadImageResponse {
 
     String uId;
     Home home;
+    boolean isFavorite;
     ArrayList<Bitmap> imageBitmaps;
     int loadedImages;
     ImageSwitcher iswPhotos;
@@ -59,13 +52,48 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
             imageBitmaps.add(null);
         }
 
+        setFavorites();
         loadActionBar(uId);
         loadWidgets();
         loadImages();
 
     }
 
+
+    public void setFavorites() {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference dbRef = db.getReference("favorites").child(uId);
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
+                ivFavorite.setImageResource(android.R.drawable.btn_star_big_off);
+                isFavorite=false;
+
+                for(DataSnapshot childrenSnapshot:dataSnapshot.getChildren()) {
+                    String hId = childrenSnapshot.getKey();
+
+                    if(hId.equals(home.gethId())) {
+                        ivFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                        isFavorite=true;
+                        break;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                Log.w("C2C", "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
     public void loadWidgets() {
+        TextView tvFavorite = (TextView) findViewById(R.id.tvFavorite);
+        ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
         iswPhotos = (ImageSwitcher) findViewById(R.id.iswPhotos);
         TextView tvPrev = (TextView) findViewById(R.id.tvPrev);
         TextView tvNext = (TextView) findViewById(R.id.tvNext);
@@ -76,6 +104,42 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
         TextView tvBedBaths = (TextView) findViewById(R.id.tvBedBaths);
         TextView tvDetails = (TextView) findViewById(R.id.tvDetails);
         final ImageView ivFullscreen = (ImageView) findViewById(R.id.ivFullscreen);
+
+
+        if(uId.equals("-1")) {
+            tvFavorite.setVisibility(View.GONE);
+            ivFavorite.setVisibility(View.GONE);
+        }
+
+        tvFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference dbRef = db.getReference().child("favorites");
+                if(isFavorite) {
+                    dbRef.child(uId).child(home.gethId()).removeValue();
+                } else {
+                    dbRef.child(uId).child(home.gethId()).setValue(true);
+                }
+                isFavorite=!isFavorite;
+            }
+        });
+
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference dbRef = db.getReference().child("favorites");
+                if(isFavorite) {
+                    dbRef.child(uId).child(home.gethId()).removeValue();
+                } else {
+                    dbRef.child(uId).child(home.gethId()).setValue(true);
+                }
+                isFavorite=!isFavorite;
+            }
+        });
+
+
 
         tvAddress.setText(home.getAddress().toSingleLineString());
         tvPrice.setText("$"+(new Utils().numberToCurrency(home.getPrice())));

@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -37,6 +38,7 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
     ImageSwitcher iswPhotos;
     int imageIndex;
     Context context;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,8 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
         for(int i=0;i<home.getNumImages();i++) {
             imageBitmaps.add(null);
         }
-
+        progressBar = (ProgressBar) findViewById(R.id.pbHomeDetailsImg);
+        progressBar.setVisibility(View.GONE);
         setFavorites();
         loadActionBar(uId);
         loadWidgets();
@@ -204,7 +207,7 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
     }
 
     public void loadImages() {
-
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
         for(int i=0;i<home.getNumImages(); i++) {
@@ -233,6 +236,8 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
         imageBitmaps.set(index, bitmap);
         loadedImages++;
         setImageSwitcher();
+        if(loadedImages==home.getNumImages())
+            progressBar.setVisibility(View.GONE);
     }
 
 }

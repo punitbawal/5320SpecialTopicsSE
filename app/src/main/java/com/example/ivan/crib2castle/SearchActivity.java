@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,12 +37,14 @@ import java.util.ArrayList;
 public class SearchActivity extends BaseActivity implements LocationApiResponse {
 
     String uId;
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
+        progressBar = (ProgressBar) findViewById(R.id.pbSearch);
+        progressBar.setVisibility(View.GONE);
         uId = getIntent().getStringExtra("uId");
         loadActionBar(uId);
         loadWidgets();
@@ -61,6 +64,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
         ibSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 LocationApi locApi = new LocationApi();
                 locApi.delegate = SearchActivity.this;
                 locApi.execute(etSearch.getText().toString());
@@ -70,11 +74,13 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
         lvHomes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                progressBar.setVisibility(View.VISIBLE);
                 Home home = (Home) adapterView.getItemAtPosition(i);
                 Intent intent = new Intent(context, HomeDetailsActivity.class);
                 intent.putExtra("uId", uId);
                 intent.putExtra("home", home);
                 startActivity(intent);
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -118,6 +124,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
                 Log.w("C2C", "Failed to read value.", databaseError.toException());
             }
         });
+        progressBar.setVisibility(View.GONE);
     }
 
     public void populateListview(ArrayList<Home> homeArrayList) {
@@ -126,9 +133,10 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
 
         if(homeArrayList.size() == 0){
             tvNoResults.setVisibility(View.VISIBLE);
-            Toast.makeText(SearchActivity.this, "No results found, try being more specific with your search.", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
         } else {
             tvNoResults.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
 
         }
 

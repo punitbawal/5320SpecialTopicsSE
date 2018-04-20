@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +21,14 @@ import org.w3c.dom.Text;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        progressBar = (ProgressBar) findViewById(R.id.pbLogin);
+        progressBar.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -43,8 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         // setting listeners
         tvLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                progressBar.setVisibility(View.VISIBLE);
                 if(etEmail.getText().toString().length() == 0 || etPassword.getText().toString().length() == 0 ) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "Email/password field is empty.",
                             Toast.LENGTH_SHORT).show();
                 } else {
@@ -52,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(isConnected) {
                         authenticate(etEmail.getText().toString(), etPassword.getText().toString());
                     } else {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -66,10 +72,12 @@ public class LoginActivity extends AppCompatActivity {
 
         tvGuest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 boolean isConnected = new Utils().checkForNetworkConnection(LoginActivity.this);
                 if(isConnected) {
                     Intent i = new Intent(LoginActivity.this, SearchActivity.class);
                     i.putExtra("uId", "-1");
+                    progressBar.setVisibility(View.GONE);
                     startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
@@ -82,9 +90,11 @@ public class LoginActivity extends AppCompatActivity {
         tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 boolean isConnected = new Utils().checkForNetworkConnection(LoginActivity.this);
                 if(isConnected) {
                     Intent intent = new Intent(LoginActivity.this, RegisterUserActivity.class);
+                    progressBar.setVisibility(View.GONE);
                     startActivity(intent);
                 }
                 else
@@ -115,5 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                         // ...
                     }
                 });
+        progressBar.setVisibility(View.GONE);
     }
 }

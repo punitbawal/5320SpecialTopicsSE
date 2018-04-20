@@ -1,6 +1,8 @@
 package com.example.ivan.crib2castle;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -31,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class NewListingDetailsActivity extends BaseActivity implements QuandlApiResponse {
@@ -41,7 +45,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
     private TextView tvEstimate;
     private String uId;
     private ImageSwitcher iswPhotos;
-    private ArrayList<Uri> imageUris;
+    private ArrayList<Bitmap> imageBitmaps;
     private int imgIndex;
     private int imagesUploaded;
 
@@ -56,7 +60,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         loadActionBar(uId);
         tvEstimate = (TextView) findViewById(R.id.tvEstimate);
 
-        imageUris = new ArrayList<>();
+        imageBitmaps = new ArrayList<>();
         imagesUploaded=0;
 
         Log.d("Address", home.getAddress().toSingleLineString());
@@ -123,7 +127,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imgIndex = (imgIndex+1) % imageUris.size();
+                imgIndex = (imgIndex+1) % imageBitmaps.size();
                 setImageSwitcher();
             }
         });
@@ -131,7 +135,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         tvPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imgIndex = (imgIndex > 0) ? imgIndex-1 : imageUris.size()-1;
+                imgIndex = (imgIndex > 0) ? imgIndex-1 : imageBitmaps.size()-1;
                 setImageSwitcher();
             }
         });
@@ -140,12 +144,12 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         btnDelete.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View view) {
-               if(imageUris.size() == 0) return;
-               imageUris.remove(imgIndex);
-               if(imageUris.size()==0) {
+               if(imageBitmaps.size() == 0) return;
+               imageBitmaps.remove(imgIndex);
+               if(imageBitmaps.size()==0) {
                    iswPhotos.setImageResource(0);
                } else {
-                   if(imgIndex >= imageUris.size()) imgIndex = 0;
+                   if(imgIndex >= imageBitmaps.size()) imgIndex = 0;
                    setImageSwitcher();
                }
            }
@@ -169,6 +173,10 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
                     Toast.makeText(NewListingDetailsActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(imageBitmaps.size() <= 0) {
+                    Toast.makeText(NewListingDetailsActivity.this, "Please upload at least one photo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 home.sethId(new Utils().randString(10));
                 home.setuId(uId);
                 home.setYear(Integer.parseInt(etYear.getText().toString()));
@@ -177,14 +185,14 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
                 home.setBathrooms(Integer.parseInt(etBaths.getText().toString()));
                 home.setPrice(Long.parseLong(etPrice.getText().toString()));
                 home.setDetails(etDetails.getText().toString());
-                home.setNumImages(imageUris.size());
+                home.setNumImages(imageBitmaps.size());
                 Toast.makeText(NewListingDetailsActivity.this, "Adding listing... Please be patient", Toast.LENGTH_LONG).show();
 
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
                 dbRef.child("homes").child(home.gethId()).setValue(home);
 
-                for(int i=0;i<imageUris.size(); i++) {
-                    uploadPhotoToDb(imageUris.get(i), home.gethId()+"-"+String.valueOf(i));
+                for(int i=0;i<imageBitmaps.size(); i++) {
+                    uploadPhotoToDb(imageBitmaps.get(i), home.gethId()+"-"+String.valueOf(i));
                 }
             }
         });
@@ -200,7 +208,8 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
                 iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ivFullscreen.setImageURI(imageUris.get(imgIndex));
+                        if(imageBitmaps.size() <= 0) return;
+                        ivFullscreen.setImageBitmap(imageBitmaps.get(imgIndex));
                         ivFullscreen.bringToFront();
                         ivFullscreen.setVisibility(View.VISIBLE);
                         btnDelete.setVisibility(View.INVISIBLE);
@@ -228,21 +237,33 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
 
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            imageUris.add(selectedImage);
-            imgIndex = imageUris.size()-1;
+            imageBitmaps.add(bitmap);
+            imgIndex = imageBitmaps.size()-1;
             setImageSwitcher();
         }
     }
 
     public void setImageSwitcher() {
-        iswPhotos.setImageURI(imageUris.get(imgIndex));
+        iswPhotos.setImageDrawable(new BitmapDrawable(imageBitmaps.get(imgIndex)));
     }
 
-    public void uploadPhotoToDb(Uri imgUri, String name) {
+    public void uploadPhotoToDb(Bitmap bitmap, String name) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference imgStorageRef = storage.getReference().child("images/"+name);
-        UploadTask uploadTask = imgStorageRef.putFile(imgUri);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+
+        UploadTask uploadTask = imgStorageRef.putBytes(data);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -255,7 +276,7 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 imagesUploaded++;
-                if(imagesUploaded==imageUris.size()) {
+                if(imagesUploaded==imageBitmaps.size()) {
                     Intent i = new Intent(NewListingDetailsActivity.this, SearchActivity.class);
                     i.putExtra("uId", uId);
                     startActivity(i);

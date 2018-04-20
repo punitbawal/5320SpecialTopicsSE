@@ -101,7 +101,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("homes");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Home> homeArrayList = new ArrayList<>();

@@ -95,7 +95,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("homes");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Home> homeArrayList = new ArrayList<>();
@@ -126,6 +126,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
 
         if(homeArrayList.size() == 0){
             tvNoResults.setVisibility(View.VISIBLE);
+            Toast.makeText(SearchActivity.this, "No results found, try being more specific with your search.", Toast.LENGTH_SHORT).show();
         } else {
             tvNoResults.setVisibility(View.GONE);
 

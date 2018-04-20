@@ -8,39 +8,47 @@
     <TextView
         android:id="@+id/tvAddress"
         android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Address\nAddress"
         android:textColor="@color/colorPrimary"
         android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/tvBedBaths"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/ivDispImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvBedBaths" />
 
     <TextView
         android:id="@+id/tvBedBaths"
-        android:layout_width="100dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="#bds | #bths\n# sqft"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/tvPrice"
-        app:layout_constraintStart_toEndOf="@+id/tvAddress"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/ivDispImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPrice"
-        android:layout_width="125dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="48dp"
         android:text="Price"
-        android:textAlignment="textEnd"
+        android:textAlignment="viewEnd"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvBedBaths"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivDispImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/c2chorizontallogo" />
 </android.support.constraint.ConstraintLayout>

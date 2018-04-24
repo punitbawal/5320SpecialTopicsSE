@@ -17,16 +17,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="19dp"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintBottom_toTopOf="@+id/etFirstName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Sign Up For C2C "
+            app:titleTextColor="@color/white" />
 
         <TextView
             android:id="@+id/tvFirstName"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="88dp"
@@ -36,7 +38,7 @@
 
         <TextView
             android:id="@+id/tvLastName"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
@@ -46,7 +48,7 @@
 
         <TextView
             android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
@@ -56,7 +58,7 @@
 
         <TextView
             android:id="@+id/tvPhone"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
@@ -89,11 +91,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="75dp"
             android:ems="10"
             android:hint="Enter First Name"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvFirstName"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -101,11 +105,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Enter Last Name"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLastName"
             app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
 
         <EditText
@@ -113,11 +119,13 @@
             android:layout_width="wrap_content"
             android:layout_height="46dp"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Enter E-mail Address"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvEmail"
             app:layout_constraintTop_toBottomOf="@+id/etLastName" />
 
         <EditText
@@ -125,11 +133,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Enter Phone Number"
             android:inputType="phone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvPhone"
             app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
         <EditText
@@ -161,7 +171,7 @@
 
         <TextView
             android:id="@+id/tvPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
@@ -171,7 +181,7 @@
 
         <TextView
             android:id="@+id/tvConfirmPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
@@ -184,11 +194,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Enter Password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvPassword"
             app:layout_constraintTop_toBottomOf="@+id/etState" />
 
         <EditText
@@ -196,11 +208,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Confirm Password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvConfirmPassword"
             app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
         <Button
@@ -211,7 +225,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
             android:text="Cancel"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btSave"
             app:layout_constraintStart_toStartOf="parent"
@@ -224,14 +240,16 @@
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="76dp"
             android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
             android:text="Save"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPassWordStrength" />
 
         <TextView
             android:id="@+id/tvPassWordStrength"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
@@ -243,7 +261,7 @@
             android:id="@+id/tvPasswordStrengthVal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="35dp"
             android:text="Weak"
             app:layout_constraintStart_toEndOf="@+id/tvPassWordStrength"

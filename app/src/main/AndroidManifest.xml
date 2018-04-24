@@ -36,8 +36,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SearchActivity">
+        <activity android:name=".LoginActivity"
+            android:noHistory="true"/>
+        <activity android:name=".SearchActivity"
+            android:noHistory="false">
             <intent-filter>
                 <action android:name="com.example.ivan.crib2castle.SearchActivity" />
 
@@ -51,7 +53,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewListingAddressActivity">
+        <activity android:name=".NewListingAddressActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="com.example.ivan.crib2castle.NewListingAddressActivity" />
 
@@ -65,22 +68,22 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterUserActivity">
+        <activity android:name=".RegisterUserActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="com.example.ivan.crib2castle.RegisterUserActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeDetailsActivity" />
-        <activity
-            android:name=".DisplayImageActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_display_image"
-            android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ViewListingsActivity" />
-        <activity android:name=".EditListingActivity" />
-        <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".HomeDetailsActivity"
+            android:noHistory="true"/>
+        <activity android:name=".ViewListingsActivity"
+            android:noHistory="true"/>
+        <activity android:name=".EditListingActivity"
+            android:noHistory="true"/>
+        <activity android:name=".FavoritesActivity"
+            android:noHistory="true"></activity>
     </application>
 
 </manifest>

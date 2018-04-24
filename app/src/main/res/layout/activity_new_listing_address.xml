@@ -60,6 +60,8 @@
             android:ems="10"
             android:hint="Address Line 2"
             android:inputType="textPersonName"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/etCity"
             app:layout_constraintBottom_toTopOf="@+id/etState"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -76,6 +78,8 @@
             android:ems="10"
             android:hint="City"
             android:inputType="textPersonName"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/etState"
             app:layout_constraintBottom_toTopOf="@+id/tvVerifySubmit"
             app:layout_constraintEnd_toStartOf="@+id/etState"
             app:layout_constraintStart_toStartOf="parent">
@@ -89,7 +93,9 @@
             android:layout_marginBottom="8dp"
             android:ems="10"
             android:hint="State"
-            android:inputType="textPersonName"
+            android:inputType="text|textCapCharacters|textPersonName"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/etZip"
             app:layout_constraintBottom_toTopOf="@+id/tvVerifySubmit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

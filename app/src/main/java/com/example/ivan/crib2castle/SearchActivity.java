@@ -48,11 +48,11 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
         uId = getIntent().getStringExtra("uId");
         loadActionBar(uId);
         loadWidgets();
+    }
 
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     public void loadWidgets() {

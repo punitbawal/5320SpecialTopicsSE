@@ -25,15 +25,14 @@ public class HomeListAdapter extends ArrayAdapter<Home> implements DownloadImage
     private Context context;
     private LayoutInflater inflater;
     private int resource;
-    private ArrayList<ImageView> dispImage;
-    ImageView img;
+    private ArrayList<ImageView> dispImages;
 
     public HomeListAdapter(Context context, int resource, ArrayList<Home> homeArrayList) {
         super(context, R.layout.home_item, homeArrayList);
         this.homeArrayList = homeArrayList;
-        this.dispImage = new ArrayList<>();
+        this.dispImages = new ArrayList<>();
         for(int i=0; i < homeArrayList.size();i++)
-            dispImage.add(null);
+            dispImages.add(null);
         this.context = context;
         this.resource = resource;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,7 +45,7 @@ public class HomeListAdapter extends ArrayAdapter<Home> implements DownloadImage
         TextView tvBedBaths = (TextView) convertView.findViewById(R.id.tvBedBaths);
         TextView tvPrice = (TextView) convertView.findViewById(R.id.tvPrice);
         //img = dispImage.get(i);
-        dispImage.set(i, (ImageView) convertView.findViewById(R.id.ivDispImage));
+        dispImages.set(i, (ImageView) convertView.findViewById(R.id.ivDispImage));
 
         Utils u = new Utils();
         Home home = homeArrayList.get(i);
@@ -76,7 +75,8 @@ public class HomeListAdapter extends ArrayAdapter<Home> implements DownloadImage
 
     @Override
     public void downloadImageFinish(Bitmap bitmap, int index) {
-        dispImage.get(index).setImageBitmap(bitmap);
+        dispImages.get(index).setImageBitmap(bitmap);
+        dispImages.get(index).setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
 }

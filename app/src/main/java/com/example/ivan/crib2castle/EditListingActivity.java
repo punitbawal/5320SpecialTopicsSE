@@ -53,6 +53,7 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
     private String uId;
     private ImageSwitcher iswPhotos;
     private TextView tvEstimate;
+    private EditText etSqft;
     private Home home;
     private double ppsqft;
 
@@ -74,6 +75,7 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
         home = (Home) getIntent().getSerializableExtra("home");
         ppsqft=0;
         tvEstimate = (TextView) findViewById(R.id.tvEstimate);
+        etSqft = (EditText) findViewById(R.id.etSqft);
         QuandlApi quandlApi = new QuandlApi();
         quandlApi.delegate = EditListingActivity.this;
         quandlApi.execute(home.getAddress().getZip());
@@ -95,7 +97,6 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
         final TextView tvAddress = (TextView) findViewById(R.id.tvAddress);
 
         final EditText etYear = (EditText) findViewById(R.id.etYear);
-        final EditText etSqft = (EditText) findViewById(R.id.etSqft);
         final EditText etBeds = (EditText) findViewById(R.id.etBeds);
         final EditText etBaths = (EditText) findViewById(R.id.etBaths);
         final EditText etPrice = (EditText) findViewById(R.id.etPrice);
@@ -348,7 +349,18 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
 
     public void setImageSwitcher() {
         if(loadedImages == home.getNumImages() && home.getNumImages() > 0) {
-            iswPhotos.setImageDrawable(new BitmapDrawable(imageBitmaps.get(imgIndex)));
+            Bitmap bmp = imageBitmaps.get(imgIndex);
+            double scaleFactor=1.0;
+            Double scaledWidth;
+            Double scaledHeight;
+            if(Math.max(bmp.getWidth(), bmp.getHeight())>4096) {
+                scaleFactor=4096.0/Math.max(bmp.getHeight(), bmp.getWidth());
+                scaledWidth=bmp.getWidth()*scaleFactor;
+                scaledHeight=bmp.getHeight()*scaleFactor;
+                bmp=Bitmap.createScaledBitmap(bmp, scaledWidth.intValue(), scaledHeight.intValue(), false);
+            }
+            iswPhotos.setImageDrawable(new BitmapDrawable(bmp));
+
         }
     }
 
@@ -394,6 +406,13 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
     @Override
     public void quandlApiFinish(Double ppsqft) {
         this.ppsqft = ppsqft;
+        if(etSqft.getText().toString().length() != 0 && ppsqft!=0) {
+            int sqft = Integer.parseInt(etSqft.getText().toString());
+            Utils utils = new Utils();
+            tvEstimate.setText("Quandl Estimate\n$"+utils.numberToCurrency(Math.round(ppsqft*sqft)));
+        } else {
+            tvEstimate.setText("Quandl Estimate");
+        }
     }
 
     @Override

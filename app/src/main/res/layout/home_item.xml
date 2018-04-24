@@ -9,11 +9,13 @@
         android:id="@+id/tvAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Address\nAddress"
         android:textColor="@color/colorPrimary"
         android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/tvPrice"
         app:layout_constraintStart_toEndOf="@+id/ivDispImage"
         app:layout_constraintTop_toBottomOf="@+id/tvBedBaths" />
 

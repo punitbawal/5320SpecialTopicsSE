@@ -2,6 +2,7 @@ package com.example.ivan.crib2castle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,17 +14,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import static android.graphics.Color.blue;
+import static android.graphics.Color.green;
+import static android.graphics.Color.red;
 import static android.text.TextUtils.isEmpty;
 
 public class RegisterUserActivity extends AppCompatActivity {
@@ -32,6 +40,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     String uId;
     C2CUser user;
     private FirebaseAuth dbAuth;
+    protected TextView tvRating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +49,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         colorbar();
         activateButtons();
         dbAuth = FirebaseAuth.getInstance();
+        tvRating = (TextView) findViewById(R.id.tvPasswordStrengthVal);
     }
 
     private void colorbar() {
@@ -60,8 +70,20 @@ public class RegisterUserActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 int rating = getRating(editPass.getText().toString());
                 //System.out.println("PasswordString_Rating : " +editPass.getText().toString()+"_"+rating);
-                RatingBar ratingBar = (RatingBar) findViewById(R.id.rbPassStrength);
-                ratingBar.setNumStars(rating);
+                //RatingBar ratingBar = (RatingBar) findViewById(R.id.rbPassStrength);
+                //ratingBar.setNumStars(rating);
+                if(rating < 2)
+                {
+                    tvRating.setText(R.string.Weak);
+                    tvRating.setTextColor(Color.RED);
+                }else if(rating < 4)
+                {
+                    tvRating.setText(R.string.Normal);
+                    tvRating.setTextColor(Color.BLUE);
+                }else {
+                    tvRating.setText(R.string.Strong);
+                    tvRating.setTextColor(Color.GREEN);
+                }
             }
         });
     }
@@ -219,8 +241,27 @@ public class RegisterUserActivity extends AppCompatActivity {
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w("FBAuth", "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(RegisterUserActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        try
+                                        {
+                                            throw task.getException();
+                                        }
+                                        catch(FirebaseAuthWeakPasswordException e) {
+                                            Toast.makeText(RegisterUserActivity.this, "Weak Password. Please use a stronger password.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                        catch(FirebaseAuthInvalidCredentialsException e) {
+                                            Toast.makeText(RegisterUserActivity.this, "Invalid credentials",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                        catch(FirebaseAuthUserCollisionException e) {
+                                            Toast.makeText(RegisterUserActivity.this, "User already exist",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                        catch (Exception e){
+                                            Toast.makeText(RegisterUserActivity.this, "Something went wrong with Authentication. Please try again later.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
                                     }
 
                                     // ...

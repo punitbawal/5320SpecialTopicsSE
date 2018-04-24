@@ -1,6 +1,10 @@
 package com.example.ivan.crib2castle;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -32,6 +36,7 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
 
     String uId;
     Home home;
+    String[] userInfo;                  // {userName, userEmail}
     boolean isFavorite;
     ArrayList<Bitmap> imageBitmaps;
     int loadedImages;
@@ -44,6 +49,7 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_details);
+        userInfo = new String[2];
         uId = getIntent().getStringExtra("uId");
         home = (Home) getIntent().getSerializableExtra("home");
         loadedImages=0;
@@ -57,9 +63,30 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
         progressBar.setVisibility(View.GONE);
         setFavorites();
         loadActionBar(uId);
+        loadUserNameEmail(home.getuId());
         loadWidgets();
         loadImages();
 
+    }
+
+    public void loadUserNameEmail(String uId) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference dbRef = db.getReference("c2cusers").child(uId);
+
+        Log.d("C2C", uId);
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    C2CUser u=dataSnapshot.getValue(C2CUser.class);
+                    userInfo[0]=u.getFname()+" "+u.getLname();
+                    userInfo[1]=u.getEmail();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("C2C", "Failed to read value.", databaseError.toException());
+            }
+        });
     }
 
 
@@ -106,6 +133,7 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
         TextView tvSqft = (TextView) findViewById(R.id.tvSqft);
         TextView tvBedBaths = (TextView) findViewById(R.id.tvBedBaths);
         TextView tvDetails = (TextView) findViewById(R.id.tvDetails);
+        TextView tvContactSeller = (TextView) findViewById(R.id.tvContact);
         final ImageView ivFullscreen = (ImageView) findViewById(R.id.ivFullscreen);
 
 
@@ -164,6 +192,7 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
                 iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(imageBitmaps.size() <= 0) return;
                         ivFullscreen.setImageBitmap(imageBitmaps.get(imageIndex));
                         ivFullscreen.bringToFront();
                         ivFullscreen.setVisibility(View.VISIBLE);
@@ -202,6 +231,33 @@ public class HomeDetailsActivity extends BaseActivity implements DownloadImageRe
             public void onClick(View view) {
                 imageIndex = (imageIndex+1) % imageBitmaps.size();
                 setImageSwitcher();
+            }
+        });
+
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Email", userInfo[1]);
+                        clipboard.setPrimaryClip(clip);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        tvContactSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Name: "+userInfo[0]+ "\nEmail: "+userInfo[1]).setPositiveButton("Copy Email", dialogClickListener)
+                        .setNegativeButton("OK", dialogClickListener).show();
             }
         });
     }

@@ -26,7 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:title="Add Home Details" />
+                app:title="Edit Listing" />
 
             <TextView
                 android:id="@+id/tvAddress"
@@ -63,7 +63,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSqft">
 
-                <requestFocus />
             </EditText>
 
             <EditText
@@ -110,13 +109,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
             <TextView
-                android:id="@+id/tvSubmit"
+                android:id="@+id/tvDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Publish Listing"
+                android:layout_marginTop="15dp"
+                android:text="Delete Listing"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/holo_red_dark"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -267,6 +266,19 @@
                 android:text="House Details"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etPrice" />
+
+            <TextView
+                android:id="@+id/tvSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Save Listing"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDelete" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

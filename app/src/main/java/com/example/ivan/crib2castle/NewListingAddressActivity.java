@@ -189,8 +189,8 @@ public class NewListingAddressActivity extends BaseActivity implements OnMapRead
         if(addressMarker != null) addressMarker.remove();
         addressMarker = mMap.addMarker(new MarkerOptions().position(loc).title("Address Marker"));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 
         tvVerifySubmit.setText("Add House Details");
         verify = false;

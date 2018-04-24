@@ -127,16 +127,22 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imgIndex = (imgIndex+1) % imageBitmaps.size();
-                setImageSwitcher();
+                if(imageBitmaps.size()==0) imgIndex=0;
+                else {
+                    imgIndex = (imgIndex+1) % imageBitmaps.size();
+                    setImageSwitcher();
+                }
             }
         });
 
         tvPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imgIndex = (imgIndex > 0) ? imgIndex-1 : imageBitmaps.size()-1;
-                setImageSwitcher();
+                if(imageBitmaps.size()==0) imgIndex=0;
+                else {
+                    imgIndex = (imgIndex > 0) ? imgIndex-1 : imageBitmaps.size()-1;
+                    setImageSwitcher();
+                }
             }
         });
 

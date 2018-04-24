@@ -133,6 +133,7 @@ public class SearchActivity extends BaseActivity implements LocationApiResponse 
 
         if(homeArrayList.size() == 0){
             tvNoResults.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "No homes found. Try being more specific in your search.", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
         } else {
             tvNoResults.setVisibility(View.GONE);

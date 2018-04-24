@@ -251,7 +251,17 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
     }
 
     public void setImageSwitcher() {
-        iswPhotos.setImageDrawable(new BitmapDrawable(imageBitmaps.get(imgIndex)));
+        Bitmap bmp = imageBitmaps.get(imgIndex);
+        double scaleFactor=1.0;
+        Double scaledWidth;
+        Double scaledHeight;
+        if(Math.max(bmp.getWidth(), bmp.getHeight())>4096) {
+            scaleFactor=4096.0/Math.max(bmp.getHeight(), bmp.getWidth());
+            scaledWidth=bmp.getWidth()*scaleFactor;
+            scaledHeight=bmp.getHeight()*scaleFactor;
+            bmp=Bitmap.createScaledBitmap(bmp, scaledWidth.intValue(), scaledHeight.intValue(), false);
+        }
+        iswPhotos.setImageDrawable(new BitmapDrawable(bmp));
     }
 
     public void uploadPhotoToDb(Bitmap bitmap, String name) {

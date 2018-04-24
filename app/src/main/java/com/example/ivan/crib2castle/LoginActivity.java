@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loadWidgets() {
         TextView tvLogin = (TextView) findViewById(R.id.tvLogin);
         TextView tvGuest = (TextView) findViewById(R.id.tvGuest);
+        TextView tvForgotPassword = (TextView) findViewById(R.id.tv_forgotpwdlink);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
         final TextView tvSignup = (TextView) findViewById(R.id.tv_signuplink);
@@ -101,6 +102,30 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "C2C needs access to internet. Please check your network connection",
                             Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etEmail.getText().toString().length() == 0)
+                {
+                    Toast.makeText(LoginActivity.this,"Please enter your registered Email",Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(etEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(LoginActivity.this,"New Password sent on :"+etEmail.getText().toString(),Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this,"Incorrect Email"+etEmail.getText().toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
             }
         });
     }

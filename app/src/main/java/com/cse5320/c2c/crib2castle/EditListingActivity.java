@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -58,6 +59,7 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
     private int imagesUploaded;
     private int loadedImages;
     private ArrayList<Bitmap> imageBitmaps;
+    ProgressBar progressBar;
 
 
     @Override
@@ -77,6 +79,8 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
         quandlApi.delegate = EditListingActivity.this;
         quandlApi.execute(home.getAddress().getZip());
 
+        progressBar = (ProgressBar) findViewById(com.cse5320.c2c.crib2castle.R.id.pbEditListing);
+        progressBar.setVisibility(View.GONE);
         imgIndex=0;
         imagesUploaded=0;
         loadedImages=0;
@@ -192,8 +196,11 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                if(imageBitmaps.size()<=7) {
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+                }else
+                    Toast.makeText(EditListingActivity.this,"You can upload upto 8 images only!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -385,6 +392,7 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
             });
 
         }
+        progressBar.setVisibility(View.VISIBLE);
     }
 
 
@@ -424,5 +432,7 @@ public class EditListingActivity extends BaseActivity implements QuandlApiRespon
         imageBitmaps.set(index, bitmap);
         loadedImages++;
         setImageSwitcher();
+        if(loadedImages==home.getNumImages())
+            progressBar.setVisibility(View.GONE);
     }
 }

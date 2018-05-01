@@ -20,6 +20,12 @@
             android:layout_height="wrap_content"
             tools:context="com.cse5320.c2c.crib2castle.EditListingActivity">
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="progressBar.setVisibility(View.GONE);" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -279,6 +285,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDelete" />
+
+            <ProgressBar
+                android:id="@+id/pbEditListing"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/iswPhotos"
+                app:layout_constraintEnd_toEndOf="@+id/iswPhotos"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="@+id/iswPhotos"
+                app:layout_constraintTop_toTopOf="@+id/iswPhotos"
+                app:layout_constraintVertical_bias="0.467" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

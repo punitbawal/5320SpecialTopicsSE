@@ -162,8 +162,11 @@ public class NewListingDetailsActivity extends BaseActivity implements QuandlApi
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                if(imageBitmaps.size()<=7) {
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+                }else
+                    Toast.makeText(NewListingDetailsActivity.this,"You can upload upto 8 images only!",Toast.LENGTH_SHORT).show();
             }
         });
 

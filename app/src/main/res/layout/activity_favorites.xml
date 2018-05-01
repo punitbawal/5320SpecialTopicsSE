@@ -12,7 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.ivan.crib2castle.FavoritesActivity">
+        tools:context="com.cse5320.c2c.crib2castle.FavoritesActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

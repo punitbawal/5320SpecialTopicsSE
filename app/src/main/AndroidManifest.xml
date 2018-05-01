@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ivan.crib2castle">
+    package="com.cse5320.c2c.crib2castle">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -36,53 +36,52 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.LoginActivity"
             android:noHistory="true"/>
-        <activity android:name=".SearchActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.SearchActivity"
             android:noHistory="false">
             <intent-filter>
-                <action android:name="com.example.ivan.crib2castle.SearchActivity" />
+                <action android:name="com.cse5320.c2c.SearchActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Splash">
+        <activity android:name="com.cse5320.c2c.crib2castle.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewListingAddressActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.NewListingAddressActivity"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="com.example.ivan.crib2castle.NewListingAddressActivity" />
+                <action android:name="com.cse5320.c2c.crib2castle.NewListingAddressActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewListingDetailsActivity">
+        <activity android:name="com.cse5320.c2c.crib2castle.NewListingDetailsActivity">
             <intent-filter>
-                <action android:name="com.example.ivan.crib2castle.NewListingDetailsActivity" />
+                <action android:name="com.cse5320.c2c.crib2castle.NewListingDetailsActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterUserActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.RegisterUserActivity"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="com.example.ivan.crib2castle.RegisterUserActivity" />
+                <action android:name="com.cse5320.c2c.crib2castle.RegisterUserActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeDetailsActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.HomeDetailsActivity"
             android:noHistory="true"/>
-        <activity android:name=".ViewListingsActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.ViewListingsActivity"
             android:noHistory="true"/>
-        <activity android:name=".EditListingActivity"
-            android:noHistory="true"/>
-        <activity android:name=".FavoritesActivity"
+        <activity android:name="com.cse5320.c2c.crib2castle.EditListingActivity" />
+        <activity android:name="com.cse5320.c2c.crib2castle.FavoritesActivity"
             android:noHistory="true"></activity>
     </application>
 

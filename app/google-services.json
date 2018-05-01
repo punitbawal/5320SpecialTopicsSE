@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:427088355542:android:b126d2a786b30cd9",
         "android_client_info": {
-          "package_name": "com.example.ivan.crib2castle"
+          "package_name": "com.cse5320.c2c.crib2castle"
         }
       },
       "oauth_client": [

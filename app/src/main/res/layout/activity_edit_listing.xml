@@ -18,7 +18,7 @@
             android:id="@+id/clMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context="com.example.ivan.crib2castle.EditListingActivity">
+            tools:context="com.cse5320.c2c.crib2castle.EditListingActivity">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

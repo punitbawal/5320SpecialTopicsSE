@@ -36,6 +36,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+    }
+
     public void loadWidgets() {
         TextView tvLogin = (TextView) findViewById(com.cse5320.c2c.crib2castle.R.id.tvLogin);
         TextView tvGuest = (TextView) findViewById(com.cse5320.c2c.crib2castle.R.id.tvGuest);

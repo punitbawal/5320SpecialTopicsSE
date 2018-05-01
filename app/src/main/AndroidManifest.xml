@@ -37,7 +37,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name="com.cse5320.c2c.crib2castle.LoginActivity"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity android:name="com.cse5320.c2c.crib2castle.SearchActivity"
             android:noHistory="false">
             <intent-filter>

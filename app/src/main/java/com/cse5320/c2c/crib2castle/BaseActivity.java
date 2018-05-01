@@ -76,6 +76,7 @@ public class BaseActivity extends AppCompatActivity {
                             case com.cse5320.c2c.crib2castle.R.id.mItmLogin: case com.cse5320.c2c.crib2castle.R.id.mItmLogout:
                                 FirebaseAuth.getInstance().signOut();
                                 i = new Intent(BaseActivity.this, LoginActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
                                 break;
                             case com.cse5320.c2c.crib2castle.R.id.mItmFavorites:
